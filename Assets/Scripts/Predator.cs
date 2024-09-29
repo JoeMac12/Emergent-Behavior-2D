@@ -5,7 +5,7 @@ using UnityEngine;
 public class Predator : MonoBehaviour
 {
 	public float speed = 5f;
-	public float time = 1f;
+	public float time = 1.5f;
 
 	private Vector2 direction;
 	private float timer;

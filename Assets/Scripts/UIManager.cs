@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 	public Slider alignmentSlider;
 	public Slider cohesionSlider;
 	public Slider separationSlider;
+	public Slider avoidanceSlider;
 
 	public BoidManager boidManager;
 
@@ -16,6 +17,7 @@ public class UIManager : MonoBehaviour
 		alignmentSlider.value = 1f;
 		cohesionSlider.value = 1f;
 		separationSlider.value = 1f;
+		avoidanceSlider.value = boidManager.avoidanceWeight;
 	}
 
 	// Live settings
@@ -24,5 +26,6 @@ public class UIManager : MonoBehaviour
 		boidManager.alignmentWeight = alignmentSlider.value;
 		boidManager.cohesionWeight = cohesionSlider.value;
 		boidManager.separationWeight = separationSlider.value;
+		boidManager.avoidanceWeight = avoidanceSlider.value;
 	}
 }

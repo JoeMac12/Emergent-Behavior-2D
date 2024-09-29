@@ -15,6 +15,8 @@ public class BoidManager : MonoBehaviour
 	public float cohesionWeight = 1f;
 	[HideInInspector]
 	public float separationWeight = 1f;
+	[HideInInspector]
+	public float avoidanceWeight = 1.5f;
 
 	// Spawn boids
 	void Start()
