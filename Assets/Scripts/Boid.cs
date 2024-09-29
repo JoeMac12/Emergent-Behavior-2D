@@ -11,14 +11,14 @@ public class Boid : MonoBehaviour
 	public float predatorRadius = 3f;
 
 	BoidManager boidManager;
-	private Predator predator;
+	private Predator[] predators;
 
 	// Set random speed at start
 	void Start()
 	{
 		velocity = Random.insideUnitCircle.normalized * maxSpeed;
 		boidManager = FindObjectOfType<BoidManager>();
-		predator = FindObjectOfType<Predator>();
+		predators = FindObjectsOfType<Predator>();
 	}
 
 	void Update()
@@ -34,13 +34,18 @@ public class Boid : MonoBehaviour
 
 		// Avoid the predator grrr
 		Vector2 avoidance = Vector2.zero;
-		float predatorDistance = Vector2.Distance(transform.position, predator.transform.position);
 
-		if (predatorDistance < predatorRadius)
+		foreach (Predator predator in predators)
 		{
-			avoidance = (Vector2)(transform.position - predator.transform.position);
-			avoidance = avoidance.normalized * maxSpeed - velocity;
+			float predatorDistance = Vector2.Distance(transform.position, predator.transform.position);
+			if (predatorDistance < predatorRadius)
+			{
+				Vector2 fleeDirection = (Vector2)(transform.position - predator.transform.position);
+				avoidance += fleeDirection.normalized / predatorDistance;
+			}
 		}
+
+		avoidance = avoidance.normalized * maxSpeed - velocity;
 
 		// Calculate the bird flocking behavior
 		foreach (Boid other in nearbyBoids)
