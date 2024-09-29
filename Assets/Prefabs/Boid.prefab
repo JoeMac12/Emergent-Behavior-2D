@@ -98,5 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
-  maxSpeed: 20
-  perceptionRadius: 2
+  radius: 2
+  predatorRadius: 5

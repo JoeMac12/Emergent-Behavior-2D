@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
 	public Slider cohesionSlider;
 	public Slider separationSlider;
 	public Slider avoidanceSlider;
+	public Slider boidCountSlider;
+	public Slider boidMaxSpeedSlider;
+	public Button togglePredatorButton;
 
 	public BoidManager boidManager;
 
@@ -18,6 +21,10 @@ public class UIManager : MonoBehaviour
 		cohesionSlider.value = 1f;
 		separationSlider.value = 1f;
 		avoidanceSlider.value = boidManager.avoidanceWeight;
+		boidCountSlider.value = boidManager.boidCount;
+		boidMaxSpeedSlider.value = boidManager.maxSpeed;
+
+		togglePredatorButton.onClick.AddListener(TogglePredator);
 	}
 
 	// Live settings
@@ -27,5 +34,23 @@ public class UIManager : MonoBehaviour
 		boidManager.cohesionWeight = cohesionSlider.value;
 		boidManager.separationWeight = separationSlider.value;
 		boidManager.avoidanceWeight = avoidanceSlider.value;
+
+		int newBoidCount = (int)boidCountSlider.value;
+		if (newBoidCount != boidManager.boidCount)
+		{
+			boidManager.boidCount = newBoidCount;
+			boidManager.SpawnBoids(newBoidCount);
+		}
+
+		boidManager.maxSpeed = boidMaxSpeedSlider.value;
+	}
+
+	void TogglePredator()
+	{
+		Predator predator = FindObjectOfType<Predator>();
+		if (predator != null)
+		{
+			predator.gameObject.SetActive(!predator.gameObject.activeSelf);
+		}
 	}
 }

@@ -5,10 +5,8 @@ using UnityEngine;
 public class Boid : MonoBehaviour
 {
 	public Vector2 velocity;
-	public float maxSpeed = 20f;
 	public float radius = 2f;
-
-	public float predatorRadius = 3f;
+	public float predatorRadius = 5f;
 
 	BoidManager boidManager;
 	private Predator[] predators;
@@ -16,9 +14,9 @@ public class Boid : MonoBehaviour
 	// Set random speed at start
 	void Start()
 	{
-		velocity = Random.insideUnitCircle.normalized * maxSpeed;
 		boidManager = FindObjectOfType<BoidManager>();
 		predators = FindObjectsOfType<Predator>();
+		velocity = Random.insideUnitCircle.normalized * boidManager.maxSpeed;
 	}
 
 	void Update()
@@ -45,7 +43,7 @@ public class Boid : MonoBehaviour
 			}
 		}
 
-		avoidance = avoidance.normalized * maxSpeed - velocity;
+		avoidance = avoidance.normalized * boidManager.maxSpeed - velocity;
 
 		// Calculate the bird flocking behavior
 		foreach (Boid other in nearbyBoids)
@@ -65,9 +63,9 @@ public class Boid : MonoBehaviour
 		// Apply flocking behavior if there are other boids nearby
 		if (total > 0)
 		{
-			alignment = (alignment / total).normalized * maxSpeed - velocity;
-			cohesion = ((cohesion / total) - (Vector2)transform.position).normalized * maxSpeed - velocity;
-			separation = (separation / total).normalized * maxSpeed - velocity;
+			alignment = (alignment / total).normalized * boidManager.maxSpeed - velocity;
+			cohesion = ((cohesion / total) - (Vector2)transform.position).normalized * boidManager.maxSpeed - velocity;
+			separation = (separation / total).normalized * boidManager.maxSpeed - velocity;
 
 			acceleration += (alignment * boidManager.alignmentWeight) +
 							(cohesion * boidManager.cohesionWeight) +
@@ -77,7 +75,7 @@ public class Boid : MonoBehaviour
 
 		// Update vel and pos
 		velocity += acceleration * Time.deltaTime;
-		velocity = Vector2.ClampMagnitude(velocity, maxSpeed);
+		velocity = Vector2.ClampMagnitude(velocity, boidManager.maxSpeed);
 		transform.position += (Vector3)(velocity * Time.deltaTime);
 
 		// Make boids face movement direction

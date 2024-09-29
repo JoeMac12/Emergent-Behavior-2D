@@ -5,7 +5,9 @@ using UnityEngine;
 public class BoidManager : MonoBehaviour
 {
 	public Boid boidPrefab;
-	public int boidCount = 250;
+	public int boidCount = 100;
+	public float maxSpeed = 20f;
+
 	public Boid[] boids;
 
 	// For UI settings
@@ -21,12 +23,7 @@ public class BoidManager : MonoBehaviour
 	// Spawn boids
 	void Start()
 	{
-		boids = new Boid[boidCount];
-		for (int i = 0; i < boidCount; i++)
-		{
-			Boid boid = Instantiate(boidPrefab, Random.insideUnitCircle * 5, Quaternion.identity);
-			boids[i] = boid;
-		}
+		SpawnBoids(boidCount);
 	}
 
 	// Cell settings
@@ -78,5 +75,26 @@ public class BoidManager : MonoBehaviour
 			Mathf.FloorToInt(position.x / cellSize),
 			Mathf.FloorToInt(position.y / cellSize)
 		);
+	}
+
+	// Does what it says
+	public void SpawnBoids(int count)
+	{
+		// Remove existing boids
+		if (boids != null)
+		{
+			foreach (Boid boid in boids)
+			{
+				if (boid != null)
+					Destroy(boid.gameObject);
+			}
+		}
+
+		boids = new Boid[count];
+		for (int i = 0; i < count; i++)
+		{
+			Boid boid = Instantiate(boidPrefab, Random.insideUnitCircle * 5, Quaternion.identity);
+			boids[i] = boid;
+		}
 	}
 }
