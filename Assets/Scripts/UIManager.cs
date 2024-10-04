@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
 	public Slider avoidanceSlider;
 	public Slider boidCountSlider;
 	public Slider boidMaxSpeedSlider;
-	public Button togglePredatorButton;
 
 	public BoidManager boidManager;
 
@@ -23,8 +22,6 @@ public class UIManager : MonoBehaviour
 		avoidanceSlider.value = boidManager.avoidanceWeight;
 		boidCountSlider.value = boidManager.boidCount;
 		boidMaxSpeedSlider.value = boidManager.maxSpeed;
-
-		togglePredatorButton.onClick.AddListener(TogglePredator);
 	}
 
 	// Live settings
@@ -43,14 +40,5 @@ public class UIManager : MonoBehaviour
 		}
 
 		boidManager.maxSpeed = boidMaxSpeedSlider.value;
-	}
-
-	void TogglePredator()
-	{
-		Predator predator = FindObjectOfType<Predator>();
-		if (predator != null)
-		{
-			predator.gameObject.SetActive(!predator.gameObject.activeSelf);
-		}
 	}
 }
